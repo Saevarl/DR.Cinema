@@ -69,7 +69,7 @@ const SearchScreen = () => {
           {
           filteredMovies.map(movie => {
             return (
-              <MovieCard movie={movie} />
+              <MovieCard key={movie.id} movie={movie} />
             )
           }
           )

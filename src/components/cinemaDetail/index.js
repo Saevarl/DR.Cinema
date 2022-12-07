@@ -1,5 +1,5 @@
-import { View, Text, SafeAreaView, TouchableOpacity, TextComponent } from 'react-native'
-import React from 'react'
+import { View, Text, SafeAreaView, TouchableOpacity, TextComponent, Linking } from 'react-native'
+import React, { useState } from 'react'
 import { selectSelectedCinema } from '../../features/cinemaSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { ChevronLeftIcon, MagnifyingGlassIcon } from 'react-native-heroicons/solid'
@@ -11,11 +11,20 @@ const CinemaDetail = () => {
     let cinema = useSelector(selectSelectedCinema)
     const movies = useSelector(selectMovies)
     const dispatch = useDispatch()
+    const [showMore, setShowMore] = useState(false)
 
-    // for movie in movies and for showtime in showtimes, if showtimes includes id equal to cinema.id add to list
-    const moviesAtCinema = movies.filter(movie => movie.showtimes.some(showtime => showtime.Id === cinema.id))   
-    console.log(cinema.id, moviesAtCinema)
+    // loop through movies and find those that have showtimes at this cinema
+    const moviesAtCinema = movies.filter(movie => {
+        return movie.showtimes.some(showtime => showtime.cinema.id === cinema.id)
+    })
+    
+    
+    console.log(moviesAtCinema)
+   
   
+    
+
+
   return (
     <SafeAreaView
             style={{backgroundColor: "#D3D0E3"}}>
@@ -43,14 +52,22 @@ const CinemaDetail = () => {
       
       <View>
         <View className="justify-center items-center">
-          <View className=" border-b border-gray-400 w-9/12">
+          <View className=" border-b border-green-600 w-9/12">
             <Text className="self-center text-2xl mb-2">{cinema.name}</Text>
           </View>
           <Text 
               className="font-light text-xs m-2 w-11/12"
-              lineBreakMode=''
+              truncate={showMore ? false : true}
+              numberOfLines={showMore ? 0 : 2}
 
               >{cinema.description}</Text>
+          <TouchableOpacity
+                      onPress={() => setShowMore(!showMore)}
+                      className="mb-2">
+            <Text className="font-light text-xs text-orange-500">
+              {showMore ? "Sýna minna" : "Sýna meira"}
+            </Text>
+          </TouchableOpacity>
         <View className="flex-row">
             <Text className="font-bold text-xs m-2">
                   Staðsetning{"\n"}
@@ -66,16 +83,44 @@ const CinemaDetail = () => {
             </Text>
             <Text className="font-bold text-xs m-2">
                   Vefsíða{"\n"}
-                  <Text className="font-light">
+                  <Text className="font-light"
+                        onPress={() => Linking.openURL()}>
                     {cinema.website}  
                   </Text>
             </Text>
-
+         
         </View>
+        <View>
+            
+         </View>
+
         </View>
         
       </View>
-      
+      {
+                moviesAtCinema.map(movie => {
+                    return (
+                        <View className="flex-row">
+                            <Text className="font-bold text-xs m-2">
+                                {movie.title}
+                            </Text>
+                            {
+                                movie.showtimes.map(showtime => {
+                                    return (
+                                        <View className="flex-row">
+                                            <Text className="font-light text-xs m-2">
+                                                {showtime.time}
+                                            </Text>
+                                            
+                                        </View>
+                                    )
+                                })
+                          
+                            }
+                        </View>
+                    )
+                })
+            }
 
     </SafeAreaView>
   )
