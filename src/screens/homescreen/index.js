@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native'
 import Header from '../../components/header'
 import MovieCard from '../../components/movieCard'
 import Footer from '../../components/footer'
+import InCinemaList from '../../components/inCinemaList'
 
 const HomeScreen = () => {
   const navigation = useNavigation()
@@ -22,7 +23,8 @@ const HomeScreen = () => {
               className="flex-1">
       <Header />
       
-        <ScrollView className="">
+        <ScrollView >
+          <InCinemaList />
           
           
          

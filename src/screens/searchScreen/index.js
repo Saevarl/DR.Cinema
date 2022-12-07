@@ -31,15 +31,18 @@ const SearchScreen = () => {
 
    
     useEffect(() => {
+      
         const credentials = {
-            username: `${USERNAME}`,
-            password: `${PASSWORD}`
-        }
-        dispatch(authenticate(credentials))
+          username: `${USERNAME}`,
+          password: `${PASSWORD}`
+      }
+      dispatch(authenticate(credentials))
+      
+        
       }, [])
 
     useEffect(() => {
-        if (accessToken) {
+      if (accessToken) {
             dispatch(fetchMovies(accessToken))
         }
     }, [accessToken])
