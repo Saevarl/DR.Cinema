@@ -4,4 +4,5 @@ module.exports = {
       "./src/**/*.{js,ts,jsx,tsx}",
       "./App.js",
     ],
+
   };
