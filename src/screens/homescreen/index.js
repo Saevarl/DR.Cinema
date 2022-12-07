@@ -1,33 +1,35 @@
-import { View, Text } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { authenticate } from '../../features/authenticationSlice'
-import { selectToken } from '../../features/authenticationSlice'
-import { useSelector } from 'react-redux'
-import { USERNAME, PASSWORD } from '@env'
+import { View, Text, SafeAreaView, ScrollView } from 'react-native'
+import React, { useLayoutEffect } from 'react'
+import { useNavigation } from '@react-navigation/native'
+import Header from '../../components/header'
+import MovieCard from '../../components/movieCard'
+import Footer from '../../components/footer'
 
 const HomeScreen = () => {
-    const dispatch = useDispatch()
-    const accessToken = useSelector(selectToken)
-    const [token, setToken] = useState('')
-   
-    useEffect(() => {
-        const credentials = {
-            username: `${USERNAME}`,
-            password: `${PASSWORD}`
-        }
-        console.log("CREDENTIALS", credentials)
-        dispatch(authenticate(credentials))
-
-            
-    }, [])
-
+  const navigation = useNavigation()
   
-  
-    return (
-    <View>
-      <Text>TOKEN {token}</Text>
-    </View>
+  useLayoutEffect(() => {
+    navigation.setOptions({
+        headerShown: false
+    })
+}, [])
+
+
+
+  return (
+    <SafeAreaView 
+              style={{backgroundColor: "#D3D0E3"}}
+              className="flex-1">
+      <Header />
+      
+        <ScrollView className="">
+          
+          
+         
+          
+        </ScrollView>
+      
+    </SafeAreaView>
   )
 }
 
