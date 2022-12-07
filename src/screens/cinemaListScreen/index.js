@@ -4,13 +4,16 @@ import { useNavigation } from '@react-navigation/native'
 import Header from '../../components/header'
 import { selectToken } from '../../features/authenticationSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectCinemas, fetchCinemas } from '../../features/cinemaSlice'
+import { selectCinemas, fetchCinemas, selectSelectedCinema } from '../../features/cinemaSlice'
+import CinemaCard from '../../components/cinemaCard'
+import CinemaDetail from '../../components/cinemaDetail'
 
 const CinemaListScreen = () => {
   const navigation = useNavigation()
   const dispatch = useDispatch()
   const token = useSelector(selectToken)
   const cinemas = useSelector(selectCinemas)
+  const selectedCinema = useSelector(selectSelectedCinema)
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -23,30 +26,41 @@ const CinemaListScreen = () => {
   }, [])
 
 
-console.log(cinemas)
   return (
-    <SafeAreaView 
-              style={{backgroundColor: "#D3D0E3"}}
-              className="flex-1">
-      <Header />
-      
+    <>
+    {
+      selectedCinema
+      ?
+      <CinemaDetail cinema={selectedCinema} />
+      :   
+      <SafeAreaView 
+      style={{backgroundColor: "#D3D0E3"}}
+      className="flex-1">
+        <Header />
+
         <ScrollView >
-          
-         {/*map over cinemas with id and render name */}
+
           {cinemas.map(cinema => {
-            return (
-              <View key={cinema.id}>
-                <Text>{cinema.name}</Text>
-              </View>
-            )
+          return (
+          <View key={cinema.id}>
+            <CinemaCard cinema={cinema} />
+
+          </View>
+          )
           })}
-        
-          
-         
-          
-        </ScrollView>
+
+
+
+
+      </ScrollView>
+
+      </SafeAreaView>
       
-    </SafeAreaView>
+    
+    
+  
+  }
+  </>
   )
 }
 

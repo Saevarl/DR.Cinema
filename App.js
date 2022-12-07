@@ -5,11 +5,11 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import SearchScreen from './src/screens/searchScreen';
 import HomeScreen from './src/screens/homescreen';
 import CinemaListScreen from './src/screens/cinemaListScreen';
-
 import { store } from './store';
 import { Provider } from 'react-redux';
+import { createStackNavigator } from '@react-navigation/stack';
 
-const Drawer= createDrawerNavigator();
+const Drawer = createDrawerNavigator();
 
 
 export default function App() {
@@ -32,7 +32,6 @@ export default function App() {
           <Drawer.Screen name="Heim" component={HomeScreen} />
           <Drawer.Screen name="Kvikmyndahús" component={CinemaListScreen} />
           <Drawer.Screen name="Leita" component={SearchScreen} />
-
         </Drawer.Navigator>
       </Provider>
     </NavigationContainer>

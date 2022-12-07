@@ -10,8 +10,29 @@ const cinemaSlice = createSlice({
     },
     reducers: {
         selectCinema: (state, action) => {
-            state.selectedCinema = action.payload
+            let cinema = action.payload
+            
+            if (cinema !== null) {
+                //Fixes the problem with trailing whitespace in key names
+                cinema = JSON.parse(JSON.stringify(cinema))
+                for (let key in cinema) {
+                    let newKey = key.trim()
+                    if (newKey !== key) {
+                        cinema[newKey] = cinema[key]
+                        delete cinema[key]
+            }
+            }
+                //removes <br> from description
+                if (cinema["description"] !== null) {
+                cinema["description"] = cinema["description"].replace(/<br>|<b>|\n/g, "")
+                }
+            }
+            
+            
+            state.selectedCinema = cinema
         }
+        
+
     },
     extraReducers: (builder) => {
         builder
@@ -36,6 +57,7 @@ export const fetchCinemas = createAsyncThunk(
 
         })
         const data = await response.json()
+        
         return data
     }
 )
