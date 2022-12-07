@@ -1,38 +1,37 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useEffect, useState } from "react";
-import { Text, View, ActivityIndicator } from "react-native";
+import React, { useEffect, useState, useLayoutEffect } from "react";
+import { Text, View, SafeAreaView, ScrollView } from "react-native";
 import styles from "./styles";
+import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
-import { authenticate, selectToken } from "../../features/authenticationSlice";
 import { fetchUpcoming, selectUpcoming } from "../../features/upcomingSlice";
-import { USERNAME, PASSWORD } from '@env';
-import axios from "axios";
+import { selectToken } from "../../features/authenticationSlice";
 
-export default function Upcoming() {
+const Upcoming = () => {
     const upcoming = useSelector(selectUpcoming);
-    let [isLoading, setLoading] = useState(true);
-    let [error, setError] = useState();
-    //let [upcoming, setUpcoming] = useState();
-
+    const navigation = useNavigation();
     const dispatch = useDispatch();
+    const token = useSelector(selectToken);
+
 
     useEffect(() => {
-        dispatch(fetchUpcoming());
+        dispatch(fetchUpcoming(token));
     }, []);
 
     console.log('UPCOMING',upcoming)
     return (
-        <View>
-            <Text>Upcoming</Text>
-            {/* {upcoming.map((movie) => {
-                return (
-                    <View>
-                        <Text>{movie.title}</Text>
-                        <Text>{movie.overview}</Text>
-                    </View>
-                );
-            }
-            )} */}
-        </View>
+        <SafeAreaView>
+            <ScrollView>
+                {upcoming.map((movie) => {
+                    return (
+                        <View key={movie.id}>
+                            <Text>{movie.title}</Text>
+                        </View>
+                    );
+                }
+                )}
+            </ScrollView>
+        </SafeAreaView>
     );
 }
+
+export default Upcoming

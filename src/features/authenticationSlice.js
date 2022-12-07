@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { createAsyncThunk } from '@reduxjs/toolkit'
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import * as fileService from '../services/fileService'
 
 
 const authenticationSlice = createSlice({
@@ -15,16 +16,18 @@ const authenticationSlice = createSlice({
     extraReducers: (builder) => {
         builder
         .addCase(authenticate.fulfilled, (state, action) => {
-            console.log("ACTION PAYLOAD", action.payload)
-            state.accessToken = action.payload.token
-            
+            console.log("AUTHENTICATED", action.payload)
+            state.accessToken = action.payload
         })
         .addCase(authenticate.rejected, (state, action) => {
             console.log("REJECTED")
-            console.log("ERROR", action.error)
         })
         .addCase(authenticate.pending, (state, action) => {
             console.log("PENDING")
+        })
+        .addCase(loadToken.fulfilled, (state, action) => {
+            console.log("TOKEN LOADED", action.payload)
+            state.accessToken = action.payload.token
         })
         
 
@@ -43,7 +46,15 @@ export const authenticate = createAsyncThunk(
             body: JSON.stringify(credentials)
         })
         const data = await response.json()
-        return data
+        return data.token
+    }
+)
+
+export const loadToken = createAsyncThunk(
+    'authentication/loadToken',
+    async () => {
+        const token = await fileService.loadToken()
+        return token
     }
 )
 

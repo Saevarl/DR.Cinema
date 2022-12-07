@@ -4,22 +4,27 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 const upcomingSlice = createSlice({
     name: 'upcoming',
     initialState: {
-        upcoming: []
+        upcomings: [],
+        selectedUpcoming: null
     },
     reducers: {
+        selectUpcoming: (state, action) => {
+            state.selectedUpcoming = action.payload;
+        }
+    },
         extraReducers: (builder) => {
             builder
                 .addCase(fetchUpcoming.fulfilled, (state, action) => {
-                    console.log('MOVIES FETECHED');
-                    state.upcoming = action.payload;
+                    console.log('UPCOMING MOVIES FETCHED');
+                    state.upcomings = action.payload;
                 })
                 .addCase(fetchUpcoming.rejected, (state, action) => {
-                    console.log("Error: Fetching Upcoming Movies Failed");
+                    console.log("REJECTED: ", action.error);
                 })
             
         }   
     }
-});
+);
 
 export const fetchUpcoming = createAsyncThunk(
     'upcoming/fetchUpcoming',
@@ -32,6 +37,10 @@ export const fetchUpcoming = createAsyncThunk(
     }
 );
 
-export const selectUpcoming = (state) => state.upcoming.upcoming;
+export const { selectUpcoming } = upcomingSlice.actions;
+
+export const selectUpcomings = (state) => state.upcoming.upcomings;
+
+export const selectSelectedUpcoming = (state) => state.upcoming.selectedUpcoming;
 
 export default upcomingSlice.reducer;
