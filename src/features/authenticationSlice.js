@@ -38,7 +38,7 @@ export const authenticate = createAsyncThunk(
         const response = await fetch('https://api.kvikmyndir.is/authenticate', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify(credentials)
         })

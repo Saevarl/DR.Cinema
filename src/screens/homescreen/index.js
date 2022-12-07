@@ -19,10 +19,7 @@ const HomeScreen = () => {
             username: `${USERNAME}`,
             password: `${PASSWORD}`
         }
-        console.log("CREDENTIALS", credentials)
         dispatch(authenticate(credentials))
-
-            
     }, [])
 
   

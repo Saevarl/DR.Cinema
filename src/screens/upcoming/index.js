@@ -4,57 +4,35 @@ import { Text, View, ActivityIndicator } from "react-native";
 import styles from "./styles";
 import { useDispatch, useSelector } from "react-redux";
 import { authenticate, selectToken } from "../../features/authenticationSlice";
-import $ from "jquery";
-
-
+import { fetchUpcoming, selectUpcoming } from "../../features/upcomingSlice";
+import { USERNAME, PASSWORD } from '@env';
+import axios from "axios";
 
 export default function Upcoming() {
-    const accessToken = useSelector(selectToken)
+    const upcoming = useSelector(selectUpcoming);
     let [isLoading, setLoading] = useState(true);
     let [error, setError] = useState();
-    let [response, setResponse] = useState();
+    //let [upcoming, setUpcoming] = useState();
 
     const dispatch = useDispatch();
 
-    console.log("TOKEN", accessToken);
-    $.ajax({
-        url : 'http://api.kvikmyndir.is/movies?token=' + accessToken,
-        type : 'GET',
-        dataType : 'json',
-        success : function (response) {
-            console.log("Response", response);
-        }
-    });
-
     useEffect(() => {
-        // fetch("https://api.kvikmyndir.is/upcoming")
-        //     .then((response) => response.json())
-        //     .then((json) => {
-        //         setResponse(json)
-        //         setLoading(false)},
-        //         (error) => {
-        //             setLoading(false);
-        //             setError(error);
-        //         })
-        //     .catch((error) => setError(error))
-        //     .finally(() => setLoading(false));
+        dispatch(fetchUpcoming());
     }, []);
 
-
-    const getContent = () => {
-        if (isLoading) {
-            return <ActivityIndicator />;
-        }
-        if(error) {
-            return <Text>{error}</Text>;
-        }
-        console.log("RESPONSE", response);
-        return  <Text>Upcoming Movie{response["message"]}</Text>;
-    };
-
+    console.log('UPCOMING',upcoming)
     return (
         <View>
-            {getContent()}
+            <Text>Upcoming</Text>
+            {/* {upcoming.map((movie) => {
+                return (
+                    <View>
+                        <Text>{movie.title}</Text>
+                        <Text>{movie.overview}</Text>
+                    </View>
+                );
+            }
+            )} */}
         </View>
     );
 }
