@@ -1,10 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-<<<<<<< HEAD
-import HomeScreen from './src/screens/homescreen';
 import Upcoming from './src/screens/upcoming';
-=======
->>>>>>> saevar
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import SearchScreen from './src/screens/searchScreen';
@@ -21,12 +17,6 @@ export default function App() {
   return (
     <NavigationContainer>
       <Provider store={store}>
-<<<<<<< HEAD
-        <Stack.Navigator>
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Upcoming" component={Upcoming} />
-        </Stack.Navigator>
-=======
         <Drawer.Navigator
                        screenOptions={{
                           drawerStyle: {
@@ -42,9 +32,9 @@ export default function App() {
                       >
           <Drawer.Screen name="Heim" component={HomeScreen} />
           <Drawer.Screen name="Kvikmyndahús" component={CinemaListScreen} />
+          <Drawer.Screen name="Væntanlegt Í bíó" component={Upcoming} />
           <Drawer.Screen name="Leita" component={SearchScreen} />
         </Drawer.Navigator>
->>>>>>> saevar
       </Provider>
     </NavigationContainer>
   );
