@@ -1,6 +1,6 @@
 import * as FileSystem from 'expo-file-system';
-const movieDirectory = `${FileSystem.documentDirectory}movies`;
 
+const accessTokenDirectory = `${FileSystem.documentDirectory}token`;
 
 const onException = (cb, errorHandler) => {
     try {
@@ -13,46 +13,34 @@ const onException = (cb, errorHandler) => {
     }
 }
 
-export const loadMovie = async fileName => {
-    return await onException(() => FileSystem.readAsStringAsync(`${movieDirectory}/${fileName}`, {
-        encoding: FileSystem.EncodingType.UTF8
-    }));
+export const cleanDirectory = async () => {
+    await FileSystem.deleteAsync(accessTokenDirectory);
+}
+
+export const addToken = async token => {
+    await setupDirectory();
+    const tokenFile = `${accessTokenDirectory}/token.json`;
+    await onException(() => FileSystem.writeAsStringAsync(tokenFile, JSON.stringify(token), { encoding: FileSystem.EncodingType.UTF8 }));
+
+    return {
+        file: await loadToken()
+    };
+    
+}
+export const remove = async () => {
+    const tokenFile = `${accessTokenDirectory}/token.json`;
+    return await onException(() => FileSystem.deleteAsync(tokenFile, { idempotent: true }));
+}
+
+export const loadToken = async () => {
+    const tokenFile = `${accessTokenDirectory}/token.json`;
+    const token = await onException(() => FileSystem.readAsStringAsync(tokenFile, { encoding: FileSystem.EncodingType.UTF8 }));
+    return JSON.parse(token);
 }
 
 const setupDirectory = async () => {
-    const dir = await FileSystem.getInfoAsync(movieDirectory);
+    const dir = await FileSystem.getInfoAsync(accessTokenDirectory);
     if (!dir.exists) {
-        await FileSystem.makeDirectoryAsync(movieDirectory);
+        await FileSystem.makeDirectoryAsync(accessTokenDirectory);
     }
 }
-
-export const getAllMovies = async () => {
-    await setupDirectory();
-    const result = await onException(() => FileSystem.readDirectoryAsync(movieDirectory));
-    return Promise.all(result.map(async fileName => {
-        return {
-            name: fileName,
-            type: 'string',
-            file: await loadMovie(fileName)
-        };
-    }));
-}
-
-const accessToken = useSelector(selectToken);
-        const dispatch = useDispatch();
-        const credentials = {
-            username: `${USERNAME}`,
-            password: `${PASSWORD}`
-        }
-        dispatch(authenticate(credentials));
-        console.log("ACCESS TOKEN", credentials);
-        axios.get('https://api.kvikmyndir.is/upcoming', {
-            params: {token: accessToken},
-        })
-            .then(({data}) => {
-                const upcomingList = data.map((m) => {
-                    const movie = JSON.parse(m.file);
-                });
-                console.log("UPCOMING LIST", upcomingList);
-                return upcomingList;
-            })
