@@ -12,7 +12,7 @@ const CinemaListScreen = () => {
   const navigation = useNavigation()
   const dispatch = useDispatch()
   const token = useSelector(selectToken)
-  const cinemas = useSelector(selectCinemas)
+  let cinemas = useSelector(selectCinemas)
   const selectedCinema = useSelector(selectSelectedCinema)
 
   useLayoutEffect(() => {
