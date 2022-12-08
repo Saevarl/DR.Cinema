@@ -19,7 +19,6 @@ const authenticationSlice = createSlice({
         .addCase(authenticate.fulfilled, (state, action) => {
             console.log("AUTHENTICATED", action.payload)
             state.accessToken = action.payload
-            
         })
         .addCase(authenticate.rejected, (state, action) => {
             console.log("AUTH REJECTED")
@@ -30,13 +29,6 @@ const authenticationSlice = createSlice({
             console.log("LOADED TOKEN", action.payload)
             state.accessToken = action.payload.token
         })
-        .addCase(loadToken.fulfilled, (state, action) => {
-            console.log("TOKEN LOADED", action.payload)
-            state.accessToken = action.payload.token
-        })
-        
-
-
     }
 })
 

@@ -2,7 +2,7 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-    contsiner: {
+    container: {
         flex: 1,
         
     }
