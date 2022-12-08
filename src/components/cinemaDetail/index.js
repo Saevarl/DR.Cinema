@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, TouchableOpacity, TextComponent, Linking } from 'react-native'
+import { View, Text, SafeAreaView, TouchableOpacity, TextComponent, Linking, Image } from 'react-native'
 import React, { useState } from 'react'
 import { selectSelectedCinema } from '../../features/cinemaSlice'
 import { useDispatch, useSelector } from 'react-redux'
@@ -6,6 +6,7 @@ import { ChevronLeftIcon, MagnifyingGlassIcon } from 'react-native-heroicons/sol
 import { selectCinema } from '../../features/cinemaSlice'
 import { ScrollView } from 'react-native-gesture-handler'
 import { selectMovies } from '../../features/movieSlice'
+import MovieScreeningCard from '../movieScreeiningCard'
 
 const CinemaDetail = () => {
     let cinema = useSelector(selectSelectedCinema)
@@ -13,16 +14,36 @@ const CinemaDetail = () => {
     const dispatch = useDispatch()
     const [showMore, setShowMore] = useState(false)
 
-    // loop through movies and find those that have showtimes at this cinema
-    const moviesAtCinema = movies.filter(movie => {
-        return movie.showtimes.some(showtime => showtime.cinema.id === cinema.id)
-    })
-    
-    
-    console.log(moviesAtCinema)
+    // loop through movies and find those that have showtimes at this cinema and return the movie only with the showtimes at this cinema
+    let moviesAtCinema = []
+    for (let i = 0; i < movies.length; i++) {
+        let movie = movies[i]
+        let showtimes = movie.showtimes
+        let showtimesAtCinema = []
+        for (let j = 0; j < showtimes.length; j++) {
+            let showtime = showtimes[j]
+            if (showtime.cinema.id === cinema.id) {
+                showtimesAtCinema.push(showtime)
+            }
+        }
+        if (showtimesAtCinema.length > 0) {
+            let movieAtCinema = {
+                id: movie._id,
+                title: movie.title,
+                poster: movie.poster,
+                showtimes: showtimesAtCinema,
+                imdbRating: movie.ratings.imdb,
+                imdbId: movie.ids.imdb
+            }
+            moviesAtCinema.push(movieAtCinema)
+        }
+    }
    
-  
     
+    
+
+    
+  
 
 
   return (
@@ -41,15 +62,9 @@ const CinemaDetail = () => {
           <MagnifyingGlassIcon
                       color="gray"/>
         </TouchableOpacity>
-          
-
       </View>
+      
       <ScrollView >
-      
-
-      </ScrollView>
-      
-      
       <View>
         <View className="justify-center items-center">
           <View className=" border-b border-green-600 w-9/12">
@@ -88,39 +103,26 @@ const CinemaDetail = () => {
                     {cinema.website}  
                   </Text>
             </Text>
-         
         </View>
-        <View>
-            
-         </View>
-
-        </View>
-        
+       </View>
       </View>
-      {
-                moviesAtCinema.map(movie => {
-                    return (
-                        <View className="flex-row">
-                            <Text className="font-bold text-xs m-2">
-                                {movie.title}
-                            </Text>
-                            {
-                                movie.showtimes.map(showtime => {
-                                    return (
-                                        <View className="flex-row">
-                                            <Text className="font-light text-xs m-2">
-                                                {showtime.time}
-                                            </Text>
-                                            
-                                        </View>
-                                    )
-                                })
-                          
-                            }
-                        </View>
-                    )
-                })
-            }
+      <View className="flex-col items-center justify-center">
+        {
+          moviesAtCinema.map(movie => {
+            return (
+              <MovieScreeningCard 
+                      movie={movie}
+                      key={movie.id}/>
+            )
+          })
+        }
+      </View>
+
+      </ScrollView>
+      
+      
+      
+            
 
     </SafeAreaView>
   )
