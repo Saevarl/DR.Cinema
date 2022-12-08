@@ -5,9 +5,13 @@ const upcomingSlice = createSlice({
     name: 'upcoming',
     initialState: {
         upcoming: [],
+        expandedMovie: null,
         },
         
     reducers: {
+        setExpandedMovie: (state, action) => {
+            state.expandedMovie = action.payload;
+        }
     },
         extraReducers: (builder) => {
             builder
@@ -35,6 +39,11 @@ export const fetchUpcoming = createAsyncThunk(
         return data;
     }
 );
+
+export const { setExpandedMovie } = upcomingSlice.actions;
+
+export const expandedMovie = (state) => state.upcoming.expandedMovie;
+
 export const selectUpcoming = (state) => state.upcoming.upcoming;
 
 export default upcomingSlice.reducer;

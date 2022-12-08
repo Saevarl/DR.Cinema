@@ -1,30 +1,53 @@
-import { View, Text, Image, Linking } from 'react-native';
-import React from 'react';
+import { View, Text, Image, Button, LayoutAnimation} from 'react-native';
+import React, { useState } from 'react';
 import  { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
-import upcomingSlice from '../../features/upcomingSlice';
-import { useDispatch } from 'react-redux';
-import { selectUpcoming } from '../../features/upcomingSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import VideoDropdown from '../videoDropdown';
+import { setExpandedMovie } from '../../features/upcomingSlice';
+
+
 
 const UpcomingCard = ({upcoming}) => {
+  const selectedMovie = useSelector(state => state.upcoming.expandedMovie)
+  const [layoutHeight, setLayoutHeight] = useState(0);
   const navigation = useNavigation()
   const dispatch = useDispatch()
   
-  const watchTrailer = () => {
-    if (upcoming.trailers[0] !== undefined)  {
-      if(upcoming.trailers[0].results[0] !== undefined){
-        return (
-          <TouchableOpacity
-          onPress={() => Linking.openURL(upcoming.trailers[0].results[0].url)}>
-            <Text>Sjá sýnishorn</Text>
-          </TouchableOpacity>
-        )}
+  const toggleSelected = () => {
+    if (selectedMovie === null || selectedMovie !== upcoming.id) {
+      updateLayout();
+      dispatch(setExpandedMovie(upcoming.id))
+    } else {
+      dispatch(setExpandedMovie(null))
+      updateLayout();
     }
   }
 
+  const updateLayout = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setLayoutHeight(layoutHeight === 0 ? 1 : 0);
+  }
+
+  const watchTrailer = () => {
+    if (upcoming.trailers[0] !== undefined)  {
+      if(upcoming.trailers[0].results[0] !== undefined){
+        const trailer = upcoming.trailers[0].results[0].url
+        return (
+          <View>
+            <TouchableOpacity onPress={toggleSelected}>
+              <Text>Sjá sýnishorn</Text>
+            </TouchableOpacity>
+            {selectedMovie === upcoming.id && <VideoDropdown trailer={trailer}/>}
+          </View>
+        )}
+    }
+  }  
+  
+
   return (
-    <View className="border-b m-2 bg-gray-100">
-      <View className="flex-row w-full h-20">
+
+      <View>
         <Image source={{uri: upcoming.poster}}
                 className="w-20 h-20"
         />
@@ -36,8 +59,10 @@ const UpcomingCard = ({upcoming}) => {
             </View>
         </View>
       </View>
-    </View>
+
   )
 }
+
+
 
 export default UpcomingCard
