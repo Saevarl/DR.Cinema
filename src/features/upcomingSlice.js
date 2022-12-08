@@ -4,19 +4,16 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 const upcomingSlice = createSlice({
     name: 'upcoming',
     initialState: {
-        upcomings: [],
-        selectedUpcoming: null
+        upcoming: [],
     },
     reducers: {
-        selectUpcoming: (state, action) => {
-            state.selectedUpcoming = action.payload;
-        }
+
     },
         extraReducers: (builder) => {
             builder
                 .addCase(fetchUpcoming.fulfilled, (state, action) => {
                     console.log('UPCOMING MOVIES FETCHED');
-                    state.upcomings = action.payload;
+                    state.upcoming = action.payload;
                 })
                 .addCase(fetchUpcoming.rejected, (state, action) => {
                     console.log("REJECTED: ", action.error);
@@ -29,18 +26,18 @@ const upcomingSlice = createSlice({
 export const fetchUpcoming = createAsyncThunk(
     'upcoming/fetchUpcoming',
     async (token) => {
-        const res  = await fetch(`https://api.kvikmyndir.is/upcoming?=${token}`, {
+        console.log('TOKEN', token);
+        const res  = await fetch(`https://api.kvikmyndir.is/upcoming?token=${token}`, {
             method: 'GET',
+
+
         })
         const data = await res.json();
+        console.log('DATA', data);
         return data;
     }
 );
 
-export const { selectUpcoming } = upcomingSlice.actions;
-
-export const selectUpcomings = (state) => state.upcoming.upcomings;
-
-export const selectSelectedUpcoming = (state) => state.upcoming.selectedUpcoming;
+export const selectUpcoming = (state) => state.upcoming.upcoming;
 
 export default upcomingSlice.reducer;
