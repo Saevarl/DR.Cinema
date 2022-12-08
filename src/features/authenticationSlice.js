@@ -12,18 +12,23 @@ const authenticationSlice = createSlice({
   
   reducers: {
     
+    
   },
     extraReducers: (builder) => {
         builder
         .addCase(authenticate.fulfilled, (state, action) => {
             console.log("AUTHENTICATED", action.payload)
             state.accessToken = action.payload
+            
         })
         .addCase(authenticate.rejected, (state, action) => {
-            console.log("REJECTED")
+            console.log("AUTH REJECTED")
         })
         .addCase(authenticate.pending, (state, action) => {
-            console.log("PENDING")
+        })
+        .addCase(loadToken.fulfilled, (state, action) => {
+            console.log("LOADED TOKEN", action.payload)
+            state.accessToken = action.payload.token
         })
         .addCase(loadToken.fulfilled, (state, action) => {
             console.log("TOKEN LOADED", action.payload)
@@ -46,6 +51,12 @@ export const authenticate = createAsyncThunk(
             body: JSON.stringify(credentials)
         })
         const data = await response.json()
+        
+       /*  if (data.token !== state.accessToken) {
+            fileService.remove()
+            fileService.addToken({token: data.token, validUntil: Date.now() + 86400000})
+        } */
+        
         return data.token
     }
 )
@@ -57,6 +68,7 @@ export const loadToken = createAsyncThunk(
         return token
     }
 )
+
 
 export const selectToken = (state) => state.authentication.accessToken
 
