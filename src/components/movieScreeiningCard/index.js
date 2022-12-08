@@ -1,16 +1,22 @@
 import { View, Text, Image, TouchableOpacity, Linking } from 'react-native'
 import { Chip } from "@react-native-material/core";
-
 import React from 'react'
 import { ScrollView } from 'react-native-gesture-handler';
+import { useDispatch } from 'react-redux';
+import { setSelectedMovie } from '../../features/movieSlice';
 
 const MovieScreeningCard = ({movie}) => {
-    console.log(movie)
+    const dispatch = useDispatch()
+
+    
+
   return (
-    <View className="w-full m-2 p-2 pb-4 mx-2">
-      <View className="flex-row pt-4 border-t border-gray-400">
+    <TouchableOpacity 
+                className="w-full m-2 p-1 pb-4 mx-2"
+                onPress={() => dispatch(setSelectedMovie(movie))}>
+      <View className="flex-row">
         <Text className="flex-1 text-xl font-bold">{movie.title}<Text className="text-xs font-light">({movie.year})</Text></Text>
-        <TouchableOpacity 
+        <TouchableOpacity  Opacity 
                     onPress={() => Linking.openURL(`https://www.imdb.com/title/tt${movie.imdbId}`)}
                     className="flex-row justify-center items-center">
             <Image 
@@ -46,7 +52,7 @@ const MovieScreeningCard = ({movie}) => {
       />
       <View className="ml-2 mb-2">
       <Text className="text-xl mb-2 self-center">Sýningartímar</Text>
-      <View className="space-y-2">
+      <View className="space-y-2 pb-4 border-b border-gray-400">
       {
         movie.showtimes.map(showtime => {
         return (
@@ -67,7 +73,7 @@ const MovieScreeningCard = ({movie}) => {
       </View>
       
       
-    </View>
+    </TouchableOpacity>
   )
 }
 
