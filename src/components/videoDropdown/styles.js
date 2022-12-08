@@ -4,6 +4,7 @@ export default StyleSheet.create({
     video: {
     },
     container:{
-      height: 230,
+      height: 210,
+      marginLeft: 30,
     }
   });

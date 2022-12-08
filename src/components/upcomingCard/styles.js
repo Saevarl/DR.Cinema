@@ -9,7 +9,7 @@ export default StyleSheet.create({
     },
     title: {
         position: 'absolute',
-        backgroundColor: '#0F4C75',
+        backgroundColor:'#3282B8',
         marginLeft: 35,
         padding: 10,
         paddingLeft: 80,
@@ -25,8 +25,8 @@ export default StyleSheet.create({
         paddingLeft: 10,
     },
     trailerContainer: {
-        backgroundColor:'#3282B8',
-        width: 320,
+        backgroundColor: '#0F4C75',
+        width: 350,
         bottom: 0,
         borderBottomLeftRadius: 100,
         borderBottomRightRadius: 100,

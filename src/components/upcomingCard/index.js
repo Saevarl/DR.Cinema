@@ -38,7 +38,7 @@ const UpcomingCard = ({upcoming}) => {
           <View>
             <TouchableOpacity onPress={toggleSelected}>
               <Text style={{
-                fontSize: 16, fontFamily: 'Avenir', fontSize: 15, color: '#fff', paddingLeft: 7, paddingVertical:7
+                fontSize: 16, fontFamily: 'Avenir', fontSize: 15, color: '#fff', paddingVertical:7
                 }}>Sjá sýnishorn</Text>
             </TouchableOpacity>
             {selectedMovie === upcoming.id && <VideoDropdown trailer={trailer}/>}
@@ -50,7 +50,7 @@ const UpcomingCard = ({upcoming}) => {
 
   return (
 
-      <View style={{marginTop:30, backgroundColor: '#3282B8'}}>
+      <View style={{marginTop:30, backgroundColor: '#3282B8', borderRadius:100, borderBottomRightRadius:0}}>
         <Image source={{uri: upcoming.poster}}
                 style={styles.backgroundImage}
                 blurRadius={10}
