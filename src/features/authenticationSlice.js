@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { createAsyncThunk } from '@reduxjs/toolkit'
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import * as fileService from '../services/fileService'
 
 
@@ -30,6 +30,10 @@ const authenticationSlice = createSlice({
             console.log("LOADED TOKEN", action.payload)
             state.accessToken = action.payload.token
         })
+        .addCase(loadToken.fulfilled, (state, action) => {
+            console.log("TOKEN LOADED", action.payload)
+            state.accessToken = action.payload.token
+        })
         
 
 
@@ -42,7 +46,7 @@ export const authenticate = createAsyncThunk(
         const response = await fetch('https://api.kvikmyndir.is/authenticate', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify(credentials)
         })

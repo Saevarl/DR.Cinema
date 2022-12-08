@@ -44,5 +44,3 @@ const setupDirectory = async () => {
         await FileSystem.makeDirectoryAsync(accessTokenDirectory);
     }
 }
-
-
