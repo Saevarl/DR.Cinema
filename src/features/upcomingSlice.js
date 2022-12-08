@@ -32,8 +32,6 @@ export const fetchUpcoming = createAsyncThunk(
     async (token) => {
         const res  = await fetch(`https://api.kvikmyndir.is/upcoming?token=${token}`, {
             method: 'GET',
-
-
         })
         const data = await res.json();
         return data;

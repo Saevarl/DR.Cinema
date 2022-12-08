@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import VideoDropdown from '../videoDropdown';
 import { setExpandedMovie } from '../../features/upcomingSlice';
+import styles from './styles';
 
 
 
@@ -36,7 +37,9 @@ const UpcomingCard = ({upcoming}) => {
         return (
           <View>
             <TouchableOpacity onPress={toggleSelected}>
-              <Text>Sjá sýnishorn</Text>
+              <Text style={{
+                fontSize: 16, fontFamily: 'Avenir', fontSize: 15, color: '#fff', paddingVertical:7
+                }}>Sjá sýnishorn</Text>
             </TouchableOpacity>
             {selectedMovie === upcoming.id && <VideoDropdown trailer={trailer}/>}
           </View>
@@ -47,17 +50,23 @@ const UpcomingCard = ({upcoming}) => {
 
   return (
 
-      <View>
+      <View style={{marginTop:30, backgroundColor: '#3282B8', borderRadius:100, borderBottomRightRadius:0}}>
         <Image source={{uri: upcoming.poster}}
-                className="w-20 h-20"
+                style={styles.backgroundImage}
+                blurRadius={10}
         />
-        <View> 
-            <Text className="ml-1 p-1">{upcoming.title}</Text>
-            <Text className="ml-1 p-1">{upcoming['release-dateIS']}</Text>
-            <View>
-              {watchTrailer()}
-            </View>
+        <View style={styles.date}>
+            <Text >{upcoming['release-dateIS']}</Text>
         </View>
+        <View style={styles.title}> 
+            <Text style={{fontFamily: 'Avenir', fontSize: 20, fontWeight: 'bold', color: '#fff' }}>{upcoming.title}</Text>
+        </View>
+        <Image source={{uri: upcoming.poster}}
+                style={styles.image}
+        />
+        <View style={styles.trailerContainer}>
+            {watchTrailer()}
+          </View>
       </View>
 
   )
