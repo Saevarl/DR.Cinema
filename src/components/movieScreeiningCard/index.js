@@ -1,13 +1,15 @@
-import { View, Text, Image, TouchableHighlight, TouchableOpacity, Linking } from 'react-native'
+import { View, Text, Image, TouchableOpacity, Linking } from 'react-native'
+import { Chip } from "@react-native-material/core";
 
 import React from 'react'
+import { ScrollView } from 'react-native-gesture-handler';
 
 const MovieScreeningCard = ({movie}) => {
     console.log(movie)
   return (
-    <View className="bg-slate-200 w-full m-2 mx-2">
-      <View className="flex-row">
-        <Text className="flex-1 text-xl font-bold">{movie.title}</Text>
+    <View className="w-full m-2 p-2 pb-4 mx-2">
+      <View className="flex-row pt-4 border-t border-gray-400">
+        <Text className="flex-1 text-xl font-bold">{movie.title}<Text className="text-xs font-light">({movie.year})</Text></Text>
         <TouchableOpacity 
                     onPress={() => Linking.openURL(`https://www.imdb.com/title/tt${movie.imdbId}`)}
                     className="flex-row justify-center items-center">
@@ -17,26 +19,54 @@ const MovieScreeningCard = ({movie}) => {
             <Text className="mr-2 mt-1 font-light text-xs">{movie.imdbRating}</Text>
         </TouchableOpacity>
       </View>
+      <ScrollView
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            className="flex-row">
+            
+        <View className="flex-row m-2">
+            {
+                movie.genres.map((genre) => {
+                    return (
+                        <Chip 
+                            key={genre.id}
+                            label={genre.Name}
+                            variant="outlined"/>
+                            
+                    )
+                })
+            }
+
+
+        </View>
+        </ScrollView>
       <Image 
-            classname="w-20 h-20"
             source={{uri: movie.poster}}
+            className="w-40 h-40 mt-2 mb-2 self-center"
       />
-      
+      <View className="ml-2 mb-2">
+      <Text className="text-xl mb-2 self-center">Sýningartímar</Text>
+      <View className="space-y-2">
       {
         movie.showtimes.map(showtime => {
         return (
         showtime.schedule.map((schedule, index) => {
             return (
-            <Text 
-                className="m-2"
-                key={index}>
-                {schedule.time}
-            </Text>
+            <Chip 
+                className="font-bold"
+                key={index}
+                label={schedule.time}
+                variant="outlined"/>
+            
             )
         })
         )
         })
-  }
+    }
+      </View>
+      </View>
+      
+      
     </View>
   )
 }

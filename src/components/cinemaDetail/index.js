@@ -30,6 +30,9 @@ const CinemaDetail = () => {
             let movieAtCinema = {
                 id: movie._id,
                 title: movie.title,
+                description: movie.description,
+                year: movie.year,
+                genres: movie.genres,
                 poster: movie.poster,
                 showtimes: showtimesAtCinema,
                 imdbRating: movie.ratings.imdb,
