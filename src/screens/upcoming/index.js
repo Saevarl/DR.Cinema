@@ -32,7 +32,7 @@ const Upcoming = () => {
     }, [accessToken]);
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={styles.container}>
             <ScrollView>
                 {upcoming.map((upcoming) => {
                     return (
