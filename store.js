@@ -4,6 +4,7 @@ import authenticationSlice from "./src/features/authenticationSlice";
 import movieSlice from "./src/features/movieSlice";
 import searchSlice from "./src/features/searchSlice";
 import cinemaSlice from "./src/features/cinemaSlice";
+import upcomingSlice from "./src/features/upcomingSlice";
 
 export const store = configureStore({
     reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
         movies: movieSlice,
         search: searchSlice,
         cinema: cinemaSlice,
+        upcoming: upcomingSlice,
 },
     applyMiddleware: [thunk],
 

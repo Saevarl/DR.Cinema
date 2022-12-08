@@ -1,34 +1,44 @@
 import React, { useEffect, useState, useLayoutEffect } from "react";
-import { Text, View, SafeAreaView, ScrollView } from "react-native";
+import { Text, View, TouchableOpacity, ScrollView, SafeAreaView } from "react-native";
 import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUpcoming, selectUpcoming} from "../../features/upcomingSlice";
-import { selectToken } from "../../features/authenticationSlice";
-
+import { selectToken, authenticate } from "../../features/authenticationSlice";
+import UpcomingCard from "../../components/upcomingCard";
+import { USERNAME, PASSWORD } from '@env';
 
 const Upcoming = () => {
-    const upcoming = useSelector(selectUpcoming);
-    const navigation = useNavigation();
     const dispatch = useDispatch();
-    const token = useSelector(selectToken);
+    const accessToken = useSelector(selectToken);
+    const navigation = useNavigation();
+    const upcoming = useSelector(selectUpcoming);
 
     useEffect(() => {
-        console.log('UPCOMING', upcoming)
-        dispatch(fetchUpcoming(token));
+        if (upcoming === []){
+        const credetials = {
+            username: `${USERNAME}`,
+            password: `${PASSWORD}`,
+        };
+        dispatch(authenticate(credetials));
+        }
     }, []);
+
+    useEffect(() => {
+        if (accessToken) {
+            dispatch(fetchUpcoming(accessToken));
+        }
+    }, [accessToken]);
+
     return (
         <SafeAreaView>
             <ScrollView>
-                <Text>Upcoming</Text>
-                {/* {upcoming.map((movie) => {
+                {upcoming.map((upcoming) => {
                     return (
-                        <View key={movie.id}>
-                            <Text>{movie.title}</Text>
-                        </View>
+                        <UpcomingCard key={upcoming.id} upcoming={upcoming} />
                     );
                 }
-                )} */}
+                )}
             </ScrollView>
         </SafeAreaView>
     );
