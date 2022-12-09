@@ -31,7 +31,7 @@ const SearchScreen = () => {
         if (isSearchByMovieTitle) {
             return movie.title.toLowerCase().includes(searchTerm.toLowerCase())
         } else {
-            return movie.directors_abridged.some(director => director.name.toLowerCase().includes(searchTerm.toLowerCase())) || movie.actors_abridged.some(actor => actor.name.toLowerCase().includes(searchTerm.toLowerCase()))
+            return movie.directors.some(director => director.name.toLowerCase().includes(searchTerm.toLowerCase())) || movie.actors.some(actor => actor.name.toLowerCase().includes(searchTerm.toLowerCase()))
         }
     })
 
