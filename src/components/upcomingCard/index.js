@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import VideoDropdown from '../videoDropdown';
 import { setExpandedMovie } from '../../features/upcomingSlice';
 import styles from './styles';
-//import fileType from 'react-native-file-type'
 
 
 
@@ -49,35 +48,54 @@ const UpcomingCard = ({upcoming}) => {
     }
   }  
 
+  //get the image from the API, if it doesn't exist, use a placeholder image
+  console.log(upcoming.omdb)
+
+  const posters = upcoming.omdb.map((movie) => {
+    console.log(movie.Poster)
+      return movie.Poster
+  })
+  console.log(posters[0])
+
   const getImage = () => {
+    if (posters[0] !== undefined || posters ==! null) {
     return (
-      <Image source={{uri: upcoming.poster}}
-              style={styles.image} 
-      />
+      <Image 
+        source={{uri: upcoming.poster}}
+        style={styles.image}
+        />
     )
+    } else {
+      return (
+        <Image source={{uri: 'https://img.freepik.com/premium-vector/clapper-film-movie-icon-design_24877-23150.jpg?w=1380'}}
+              style={styles.image}
+      />
+      )
+    }
   }
 
-  // const checkImageURL = () => {
-  //     fileType(upcoming.poster).then(res => {
-  //       console.log(res)
-  //       if (res === 'image/jpeg') {
-  //         return getImage()
-  //       } else {
-  //         return null
-  //       }
-  //     }
-  //   )
-  // }
-
-  //console.log(checkImageURL())
-  
-  return (
+  const getBackgroundImage = () => {
+    if (posters[0] !== undefined) {
+    return (
+      <Image 
+        source={{uri: upcoming.poster}}
+        style={styles.backgroundImage}
+        blurRadius={10}
+        />
+    )
+    } else {
+      return (
+        <Image source={{uri: 'https://img.freepik.com/premium-vector/clapper-film-movie-icon-design_24877-23150.jpg?w=1380'}}
+              style={styles.backgroundImage}
+              blurRadius={10}
+      />
+      )
+    }
+  }
+    return (
 
       <View style={{marginTop:30, backgroundColor: '#A6B1E1', borderRadius:100, borderBottomRightRadius:0}}>
-        <Image source={{uri: upcoming.poster}}
-                style={styles.backgroundImage}
-                blurRadius={10}
-        />
+        {getBackgroundImage()}
         <View style={styles.date}>
             <Text >{upcoming['release-dateIS']}</Text>
         </View>
