@@ -15,10 +15,6 @@ const Upcoming = () => {
     const navigation = useNavigation();
     const upcoming = useSelector(selectUpcoming);
 
-    const releaseDate = upcoming.map((upcoming) => {
-        return upcoming['release-dateIS'];
-    });
-
     useEffect(() => {
         if (upcoming === []){
         const credetials = {
@@ -49,14 +45,7 @@ const Upcoming = () => {
         else if (xData > yData) {return 1;}
         else {return 0;}
     });
-    const u = upcoming.map((upcoming) => {
-        return upcoming['release-dateIS'];
-    })
-    const s = sortedByDate.map((sort) => {
-        return sort['release-dateIS'];
-    })
-    console.log('Unsorted dates',u);
-    console.log('Sorted dates', s);
+
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>

@@ -47,8 +47,7 @@ const CinemaDetail = () => {
             moviesAtCinema.push(movieAtCinema)
         }
     }
-   
-  console.log("moviesAtCinema: ", moviesAtCinema)
+
     
   const goBackToCinemaList = () => {
     dispatch(selectCinema(null))
@@ -58,7 +57,7 @@ const CinemaDetail = () => {
     dispatch(setSelectedMovie(null))
   }
     
-  
+  console.log('HEYJÓ')
 
 
   return (

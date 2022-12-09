@@ -25,6 +25,19 @@ const CinemaListScreen = () => {
     dispatch(fetchCinemas(token))
   }, [])
 
+  const sortedCinemas = [];
+
+  for (var i in cinemas){
+    sortedCinemas.push(cinemas[i]);
+  }
+
+  sortedCinemas.sort(function(x, y) {
+    var xData = x.name;
+    var yData = y.name;
+
+    return (xData < yData) ? -1 : (xData > yData) ? 1 : 0;
+  }
+  )
 
   return (
     <>
@@ -40,7 +53,7 @@ const CinemaListScreen = () => {
 
         <ScrollView >
 
-          {cinemas.map(cinema => {
+          {sortedCinemas.map(cinema => {
           return (
           <View key={cinema.id}>
             <CinemaCard cinema={cinema} />
