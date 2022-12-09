@@ -12,7 +12,7 @@ const MovieDetail = ({movie}) => {
 
   return (
     <View className="h-screen">
-      <View className="flex-row">
+      <View className="flex-row mt-2 mr-2">
       <Text className="flex-1 text-xl ml-2 font-bold">{movie.title}<Text className="text-xs font-light">({movie.year})</Text></Text>
       <TouchableOpacity
                     onPress={() => Linking.openURL(`https://www.imdb.com/title/tt${movie.imdbId}`)}

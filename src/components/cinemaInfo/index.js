@@ -13,13 +13,20 @@ const CinemaInfo = ({cinema}) => {
               numberOfLines={showMore ? 0 : 2}
 
               >{cinema.description}</Text>
-        <TouchableOpacity
+        {
+          cinema.description.length > 110
+          ?
+          <TouchableOpacity
                     onPress={() => setShowMore(!showMore)}
                     className="mb-2">
           <Text className="font-light text-xs text-orange-500">
             {showMore ? "Sýna minna" : "Sýna meira"}
           </Text>
         </TouchableOpacity>
+        :
+        <></>
+        }
+        
       <View className="flex-row">
           <Text className="font-bold text-xs m-2">
                 Staðsetning{"\n"}
