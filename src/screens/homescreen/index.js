@@ -2,13 +2,14 @@ import {SafeAreaView, ScrollView, Text, View } from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import Header from '../../components/header'
-import InCinemaList from '../../components/inCinemaList'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchMovies, selectIsLoading, startLoadingMovies } from '../../features/movieSlice'
+import { fetchMovies, selectIsLoading, startLoadingMovies, selectMovies, updateMovies } from '../../features/movieSlice'
 import { authenticate, selectToken, selectTokenIsLoading, startLoadingToken } from '../../features/authenticationSlice'
-import { selectIsLoadingCinemas, startLoadingCinemas, fetchCinemas } from '../../features/cinemaSlice'
+import { selectIsLoadingCinemas, startLoadingCinemas, fetchCinemas, selectRequestedCinemaNames, getCinemaNames } from '../../features/cinemaSlice'
 import { USERNAME, PASSWORD } from '@env'
 import { ActivityIndicator } from '@react-native-material/core'
+import MovieScreeningCard from '../../components/movieScreeiningCard'
+import AllMovieScreeningTimes from '../../components/allMovieScreeningTimes'
 
 const HomeScreen = () => {
   const navigation = useNavigation()
@@ -17,6 +18,7 @@ const HomeScreen = () => {
   const tokenIsLoading = useSelector(selectTokenIsLoading)
   const cinemasAreLoading = useSelector(selectIsLoadingCinemas)
   const accessToken = useSelector(selectToken)  
+  const movies = useSelector(selectMovies)
   
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -43,6 +45,11 @@ if (accessToken) {
 }, [accessToken])
 
 
+
+      
+      
+
+
   return (
     <SafeAreaView 
               style={{backgroundColor: "#D3D0E3"}}
@@ -60,9 +67,22 @@ if (accessToken) {
         : 
         <>
           <Header />
-      
+          <Text className="text-2xl self-center m-2">Í Bíó</Text>
+
           <ScrollView >
-            <InCinemaList />
+            {
+              movies.map((movie, index) => {
+                return (
+                  <View>
+                  <MovieScreeningCard 
+                          movie={movie}
+                          key={movie.id}/>
+                  <AllMovieScreeningTimes movie={movie}/>
+                  </View>
+                  
+                )
+              })
+            }
           </ScrollView>
         </>
         

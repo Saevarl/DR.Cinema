@@ -10,6 +10,7 @@ import MovieScreeningCard from '../movieScreeiningCard'
 import GoBackHeader from '../goBackHeader'
 import CinemaInfo from '../cinemaInfo'
 import MovieDetail from '../movieDetail'
+import SingleMovieScreeiningTime from '../singleMovieScreeningTime'
 
 const CinemaDetail = () => {
     let cinema = useSelector(selectSelectedCinema)
@@ -30,23 +31,15 @@ const CinemaDetail = () => {
         }
         if (showtimesAtCinema.length > 0) {
             let movieAtCinema = {
-                id: movie._id,
-                title: movie.title,
-                plot: movie.plot,
-                year: movie.year,
-                genres: movie.genres,
-                poster: movie.poster,
-                showtimes: showtimesAtCinema,
-                imdbRating: movie.ratings.imdb,
-                imdbId: movie.ids.imdb,
-                actors: movie.actors_abridged,
-                directors: movie.directors_abridged,
-                duration: movie.durationMinutes,
+                ...movie,
+                showtimes: showtimesAtCinema
                 
             }
             moviesAtCinema.push(movieAtCinema)
         }
     }
+
+    console.log("MOVIES AT CINEMA", moviesAtCinema)
 
     
   const goBackToCinemaList = () => {
@@ -88,9 +81,13 @@ const CinemaDetail = () => {
           {
             moviesAtCinema.map(movie => {
               return (
-                <MovieScreeningCard 
-                        movie={movie}
-                        key={movie.id}/>
+                <View className="border-b border-gray-400">
+                  <MovieScreeningCard 
+                          movie={movie}
+                          key={movie.id}/>
+                  <SingleMovieScreeiningTime movie={movie}/>
+                </View>
+                
               )})
           }
         </View>

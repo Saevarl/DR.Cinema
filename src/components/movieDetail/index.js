@@ -6,6 +6,7 @@ import { Chip } from '@react-native-material/core'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import Cast from '../cast'
 import MovieGenres from '../movieGenres'
+import SingleMovieScreeiningTime from '../singleMovieScreeningTime'
 
 const MovieDetail = ({movie}) => {
 
@@ -36,27 +37,7 @@ const MovieDetail = ({movie}) => {
       <Text className="font-light text-xs m-1">Söguþráður</Text>
       <Text className="text-xs mb-2 mx-1">{movie.plot}</Text> 
       <Cast movie={movie}/>
-      <Text className="text-xl mb-2 self-center">Sýningartímar</Text>
-      <View className="space-y-2 pb-4">
-      {
-        movie.showtimes.map(showtime => {
-        return (
-        showtime.schedule.map((schedule, index) => {
-            return (
-            <Chip 
-                className="font-bold"
-                key={index}
-                label={schedule.time}
-                variant="outlined"
-                onPress={() => Linking.openURL(`${schedule.purchase_url}`)}/>
-            
-            
-            )
-        })
-        )
-        })
-    }
-      </View>
+      <SingleMovieScreeiningTime movie={movie}/>
       </View>
 
     </View>

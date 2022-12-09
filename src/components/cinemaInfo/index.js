@@ -14,7 +14,7 @@ const CinemaInfo = ({cinema}) => {
 
               >{cinema.description}</Text>
         {
-          cinema.description.length > 110
+          cinema.description !== null && cinema.description.length > 110
           ?
           <TouchableOpacity
                     onPress={() => setShowMore(!showMore)}

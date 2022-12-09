@@ -8,6 +8,7 @@ const cinemaSlice = createSlice({
         cinemas: [],
         selectedCinema: null,
         isLoading: false,
+        requestedCinemaNames: null
     },
     
     reducers: {
@@ -35,7 +36,12 @@ const cinemaSlice = createSlice({
         },
         startLoadingCinemas: (state) => {
             state.isLoading = true
-        }
+        },
+        
+        
+        
+
+
 
         
         
