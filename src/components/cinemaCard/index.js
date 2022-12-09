@@ -17,7 +17,6 @@ const CinemaCard = ({cinema}) => {
         website = `https://${website}`
     }
 
-    
     return (
     <View className="mx-2 w-auto border-b border-gray-400 h-20 justify-center items-center">
       <TouchableOpacity
