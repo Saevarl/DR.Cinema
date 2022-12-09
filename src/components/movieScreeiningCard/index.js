@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { setSelectedMovie } from '../../features/movieSlice';
 import Cast from '../cast';
 import MovieGenres from '../movieGenres';
+import SingleMovieScreeiningTime from '../singleMovieScreeningTime';
 
 const MovieScreeningCard = ({movie}) => {
     const dispatch = useDispatch()
@@ -14,7 +15,7 @@ const MovieScreeningCard = ({movie}) => {
 
   return (
     <TouchableOpacity 
-                className="w-full m-2 p-1 pb-4 mx-2"
+                className="w-full m-2 p-1 pb-4 mx-2 "
                 onPress={() => dispatch(setSelectedMovie(movie))}>
       <View className="flex-row">
         <Text className="flex-1 text-xl font-bold">{movie.title}<Text className="text-xs font-light">({movie.year})</Text></Text>
@@ -27,7 +28,9 @@ const MovieScreeningCard = ({movie}) => {
             <Text className="mr-2 mt-1 font-light text-xs">{movie.imdbRating}</Text>
         </TouchableOpacity>
       </View>
+     
       <MovieGenres movie={movie}/>
+        
       <View className="m-2 items-center justify-center">
 
       <Image 
@@ -37,24 +40,6 @@ const MovieScreeningCard = ({movie}) => {
       
       <View className="ml-2 mb-2">
       <Cast movie={movie}/>
-        <Text className="text-xl mb-2 self-center">Sýningartímar</Text>
-        <View className="space-y-2 pb-4 border-b border-gray-400">
-          {
-            movie.showtimes.map(showtime => {
-            return (
-            showtime.schedule.map((schedule, index) => {
-                return (
-                <Chip 
-                    className="font-bold"
-                    key={index}
-                    label={schedule.time}
-                    variant="outlined"
-                    onPress={() => Linking.openURL(`${schedule.purchase_url}`)}/>
-                )
-            })
-            )})
-          }
-        </View>
         </View>
       </View>
       

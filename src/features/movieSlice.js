@@ -1,8 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { useDispatch } from 'react-redux'
-import { USERNAME, PASSWORD } from '@env'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { selectRequestedCinemaName, getCinemaName} from './cinemaSlice'
 const movieSlice = createSlice({
   name: 'movies',
   initialState: {
@@ -19,7 +18,12 @@ const movieSlice = createSlice({
     
     startLoadingMovies: (state) => {
       state.isLoading = true
+    },
+    updateMovies: (state, action) => {
+      state.movies = action.payload
     }
+
+
 
     
 
@@ -28,18 +32,43 @@ const movieSlice = createSlice({
         builder
         .addCase(fetchMovies.fulfilled, (state, action) => {
             console.log("FETCHED MOVIES")
-            state.movies = action.payload
+            let movies = action.payload
+            movies = movies.map((movie) => {
+              return({
+                id: movie._id,
+                title: movie.title,
+                plot: movie.plot,
+                year: movie.year,
+                genres: movie.genres,
+                showtimes: movie.showtimes,
+                poster: movie.poster,
+                imdbRating: movie.ratings.imdb,
+                imdbId: movie.ids.imdb,
+                actors: movie.actors_abridged,
+                directors: movie.directors_abridged,
+                duration: movie.durationMinutes,
+                
+              }
+              )
+            })
+
+            state.movies = movies
             state.isLoading = false
         })
         .addCase(fetchMovies.rejected, (state, action) => {
             console.log("FETCH MOVIES REJECTED")
             
         })
-        
+     
         
 
     }
 })
+
+  
+
+
+
 
 
   export const fetchMovies = createAsyncThunk(
@@ -54,7 +83,7 @@ const movieSlice = createSlice({
     }
   )
 
-  export const { setSelectedMovie, startLoadingMovies} = movieSlice.actions
+  export const { setSelectedMovie, startLoadingMovies, updateMovies} = movieSlice.actions
 
   export const selectSelectedMovie = (state) => state.movies.selectedMovie
 

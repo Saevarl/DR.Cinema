@@ -4,7 +4,11 @@ import React from 'react'
 const Cast = ({movie}) => {
   return (
     <View className="flex-row justify-between space-x-5">
-      <View className="mb-2">
+      
+      {
+        movie.directors.length > 0
+        ?
+        <View className="mb-3">
           <Text className="font-bold">Leikstjórn</Text>
           {
             movie.directors.map((director, index) => {
@@ -14,6 +18,13 @@ const Cast = ({movie}) => {
             })
           }
         </View>
+        :
+        <></>
+      }
+
+      {
+        movie.actors.length > 0
+        ?
         <View className="mb-3">
           <Text className="font-bold">Leikarar</Text>
           {
@@ -24,6 +35,12 @@ const Cast = ({movie}) => {
             })
           }
         </View>
+        :
+        <></>
+
+      }
+      
+        
       </View>
   )
 }
