@@ -30,22 +30,7 @@ const SearchScreen = () => {
 
 
    
-    useEffect(() => {
-      
-        const credentials = {
-          username: `${USERNAME}`,
-          password: `${PASSWORD}`
-      }
-      dispatch(authenticate(credentials))
-      
-        
-      }, [])
-
-    useEffect(() => {
-      if (accessToken) {
-            dispatch(fetchMovies(accessToken))
-        }
-    }, [accessToken])
+    
 
     const filteredMovies = movies.filter(movie => {
         if (isSearchByMovieTitle) {

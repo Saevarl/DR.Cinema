@@ -1,13 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
+ 
 const cinemaSlice = createSlice({
     name: "cinema",
     initialState: {
         cinemas: [],
         selectedCinema: null,
-
+        isLoading: false,
     },
+    
     reducers: {
         selectCinema: (state, action) => {
             let cinema = action.payload
@@ -30,14 +32,21 @@ const cinemaSlice = createSlice({
             
             
             state.selectedCinema = cinema
+        },
+        startLoadingCinemas: (state) => {
+            state.isLoading = true
         }
+
+        
         
 
     },
     extraReducers: (builder) => {
         builder
             .addCase(fetchCinemas.fulfilled, (state, action) => {
+                console.log("CINEMAS FULFILLED")
                 state.cinemas = action.payload
+                state.isLoading = false
             })
             .addCase(fetchCinemas.rejected, (state, action) => {
                 console.log("REJECTED", action.error)
@@ -56,13 +65,16 @@ export const fetchCinemas = createAsyncThunk(
                 }
 
         })
+       
         const data = await response.json()
         
         return data
     }
 )
 
-export const { selectCinema } = cinemaSlice.actions
+export const { selectCinema, startLoadingCinemas } = cinemaSlice.actions
+
+export const selectIsLoadingCinemas = (state) => state.cinema.isLoading
 
 export const selectCinemas = (state) => state.cinema.cinemas
 

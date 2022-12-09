@@ -1,16 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import * as fileService from '../services/fileService'
 
 
 const authenticationSlice = createSlice({
   name: 'authentication',
   initialState: {
     accessToken: '',
-
+    isLoading: false,
     },
   
   reducers: {
+        startLoadingToken: (state) => {
+            state.isLoading = true
+        }
     
     
   },
@@ -19,16 +21,13 @@ const authenticationSlice = createSlice({
         .addCase(authenticate.fulfilled, (state, action) => {
             console.log("AUTHENTICATED", action.payload)
             state.accessToken = action.payload
+            state.isLoading = false
         })
         .addCase(authenticate.rejected, (state, action) => {
             console.log("AUTH REJECTED")
+            
         })
-        .addCase(authenticate.pending, (state, action) => {
-        })
-        .addCase(loadToken.fulfilled, (state, action) => {
-            console.log("LOADED TOKEN", action.payload)
-            state.accessToken = action.payload.token
-        })
+        
     }
 })
 
@@ -44,23 +43,17 @@ export const authenticate = createAsyncThunk(
         })
         const data = await response.json()
         
-       /*  if (data.token !== state.accessToken) {
-            fileService.remove()
-            fileService.addToken({token: data.token, validUntil: Date.now() + 86400000})
-        } */
+        
+         
         
         return data.token
     }
 )
 
-export const loadToken = createAsyncThunk(
-    'authentication/loadToken',
-    async () => {
-        const token = await fileService.loadToken()
-        return token
-    }
-)
 
+export const { startLoadingToken } = authenticationSlice.actions
+
+export const selectTokenIsLoading = (state) => state.authentication.isLoading
 
 export const selectToken = (state) => state.authentication.accessToken
 
