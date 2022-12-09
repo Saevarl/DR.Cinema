@@ -32,19 +32,23 @@ const CinemaDetail = () => {
             let movieAtCinema = {
                 id: movie._id,
                 title: movie.title,
-                description: movie.description,
+                plot: movie.plot,
                 year: movie.year,
                 genres: movie.genres,
                 poster: movie.poster,
                 showtimes: showtimesAtCinema,
                 imdbRating: movie.ratings.imdb,
-                imdbId: movie.ids.imdb
+                imdbId: movie.ids.imdb,
+                actors: movie.actors_abridged,
+                directors: movie.directors_abridged,
+                duration: movie.durationMinutes,
+                
             }
             moviesAtCinema.push(movieAtCinema)
         }
     }
    
-    
+  console.log("moviesAtCinema: ", moviesAtCinema)
     
   const goBackToCinemaList = () => {
     dispatch(selectCinema(null))
@@ -59,7 +63,8 @@ const CinemaDetail = () => {
 
   return (
     <SafeAreaView
-            style={{backgroundColor: "#D3D0E3"}}>
+            style={{backgroundColor: "#D3D0E3"}}
+            className="h-screen">
       
     {
       selectedMovie
@@ -75,7 +80,7 @@ const CinemaDetail = () => {
       <GoBackHeader 
               goBack={() => goBackToCinemaList()}/>
       
-      <ScrollView >
+      <ScrollView>
       <View className=" border-b border-green-600 w-9/12 self-center">
         <Text className="self-center text-2xl mb-2">{cinema.name}</Text>
       </View>
