@@ -9,7 +9,7 @@ export default StyleSheet.create({
     },
     title: {
         position: 'absolute',
-        backgroundColor:'#3282B8',
+        backgroundColor:'#424874',
         marginLeft: 35,
         padding: 10,
         paddingLeft: 80,
@@ -18,14 +18,14 @@ export default StyleSheet.create({
     date:{
         position: 'absolute',
         borderBottomRightRadius: 100,
-        backgroundColor: '#BBE1FA',
+        backgroundColor: '#DCD6F7',
         marginLeft: 105,
-        marginTop: 47,
+        marginTop: 42,
         padding: 7,
         paddingLeft: 10,
     },
     trailerContainer: {
-        backgroundColor: '#0F4C75',
+        backgroundColor: '#A6B1E1',
         width: 350,
         bottom: 0,
         borderBottomLeftRadius: 100,

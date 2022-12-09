@@ -7,6 +7,7 @@ import { selectToken, authenticate } from "../../features/authenticationSlice";
 import UpcomingCard from "../../components/upcomingCard";
 import { USERNAME, PASSWORD } from '@env';
 import styles from "./styles";
+import Header from "../../components/header";
 
 
 const Upcoming = () => {
@@ -14,6 +15,12 @@ const Upcoming = () => {
     const accessToken = useSelector(selectToken);
     const navigation = useNavigation();
     const upcoming = useSelector(selectUpcoming);
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerShown: false
+        })
+    }, [])
 
     useEffect(() => {
         if (upcoming === []){
@@ -48,6 +55,7 @@ const Upcoming = () => {
 
     return (
         <SafeAreaView style={styles.container}>
+            <Header />
             <ScrollView>
                 {sortedByDate.map((sortedByDate) => {
                     return (
