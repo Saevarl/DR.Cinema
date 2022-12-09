@@ -50,7 +50,7 @@ const UpcomingCard = ({upcoming}) => {
 
   return (
 
-      <View style={{marginTop:30, backgroundColor: '#3282B8', borderRadius:100, borderBottomRightRadius:0}}>
+      <View style={{marginTop:30, backgroundColor: '#0F4C75', borderRadius:100, borderBottomRightRadius:0}}>
         <Image source={{uri: upcoming.poster}}
                 style={styles.backgroundImage}
                 blurRadius={10}

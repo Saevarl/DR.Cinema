@@ -35,13 +35,13 @@ const Upcoming = () => {
         }
     }, [accessToken]);
 
-    const dataArray = [];
+    const sortedByDate = [];
 
     for (var i in upcoming){
-        dataArray.push(upcoming[i]);
+        sortedByDate.push(upcoming[i]);
     }
 
-    dataArray.sort(function(x, y) {
+    sortedByDate.sort(function(x, y) {
         var xData = new Date(x['release-dateIS']);
         var yData = new Date(y['release-dateIS']);
 
@@ -49,15 +49,20 @@ const Upcoming = () => {
         else if (xData > yData) {return 1;}
         else {return 0;}
     });
-
-    console.log('Unsorted dates',upcoming);
-    console.log('Sorted dates',dataArray[0]['release-dateIS']);
+    const u = upcoming.map((upcoming) => {
+        return upcoming['release-dateIS'];
+    })
+    const s = sortedByDate.map((sort) => {
+        return sort['release-dateIS'];
+    })
+    console.log('Unsorted dates',u);
+    console.log('Sorted dates', s);
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
-                {upcoming.map((upcoming) => {
+                {sortedByDate.map((sortedByDate) => {
                     return (
-                        <UpcomingCard key={upcoming.id} upcoming={upcoming} />
+                        <UpcomingCard key={sortedByDate.id} upcoming={sortedByDate} />
                     );
                 }
                 )}
