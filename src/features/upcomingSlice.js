@@ -20,7 +20,7 @@ const upcomingSlice = createSlice({
                 state.upcoming = action.payload;
             })
             .addCase(fetchUpcoming.rejected, (state, action) => {
-                console.log("REJECTED: ", action.error);
+                console.log('UPCOMING MOVIES FETCH REJECTED');
             })
             
         }   

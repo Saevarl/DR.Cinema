@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { useDispatch, useSelector } from 'react-redux'
-import { selectRequestedCinemaName, getCinemaName} from './cinemaSlice'
+
+
 const movieSlice = createSlice({
   name: 'movies',
   initialState: {
@@ -12,7 +12,6 @@ const movieSlice = createSlice({
 
   reducers: {
     setSelectedMovie: (state, action) => {
-      console.log("SET SELECTED MOVIE", action.payload)
       state.selectedMovie = action.payload
     },
     
@@ -80,6 +79,7 @@ const movieSlice = createSlice({
           
         const data = await res.json()
         return data
+        
     }
   )
 

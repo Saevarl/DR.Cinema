@@ -5,11 +5,14 @@ import Header from '../../components/header'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchMovies, selectIsLoading, startLoadingMovies, selectMovies, updateMovies } from '../../features/movieSlice'
 import { authenticate, selectToken, selectTokenIsLoading, startLoadingToken } from '../../features/authenticationSlice'
-import { selectIsLoadingCinemas, startLoadingCinemas, fetchCinemas, selectRequestedCinemaNames, getCinemaNames } from '../../features/cinemaSlice'
+import { selectIsLoadingCinemas, startLoadingCinemas, fetchCinemas, selectCinemas } from '../../features/cinemaSlice'
+import { fetchGenres, startLoadingGenres, selectGenresLoading } from '../../features/genreSlice'
 import { USERNAME, PASSWORD } from '@env'
 import { ActivityIndicator } from '@react-native-material/core'
 import MovieScreeningCard from '../../components/movieScreeiningCard'
 import AllMovieScreeningTimes from '../../components/allMovieScreeningTimes'
+import * as movieService from '../../services/movieService'
+
 
 const HomeScreen = () => {
   const navigation = useNavigation()
@@ -19,43 +22,51 @@ const HomeScreen = () => {
   const cinemasAreLoading = useSelector(selectIsLoadingCinemas)
   const accessToken = useSelector(selectToken)  
   const movies = useSelector(selectMovies)
+  const genresAreLoading = useSelector(selectGenresLoading)
+  const cinemas = useSelector(selectCinemas)
   
   useLayoutEffect(() => {
     navigation.setOptions({
         headerShown: false
     })
-}, [])
+  }, [])
 
-useEffect(() => {
-  const credentials = {
-    username: `${USERNAME}`,
-    password: `${PASSWORD}`
-}
-dispatch(startLoadingToken())
-dispatch(authenticate(credentials))
-}, [])
-
-useEffect(() => {
-if (accessToken) {
-    dispatch(startLoadingMovies())
-    dispatch(fetchMovies(accessToken))
-    dispatch(startLoadingCinemas())
-    dispatch(fetchCinemas(accessToken))
+  useEffect(() => {
+    const credentials = {
+      username: `${USERNAME}`,
+      password: `${PASSWORD}`
   }
-}, [accessToken])
+  dispatch(startLoadingToken())
+  dispatch(authenticate(credentials))
+  }, [])
 
-
-
+  useEffect(() => {
+  if (accessToken) {
+      dispatch(startLoadingCinemas())
+      dispatch(fetchCinemas(accessToken))
+    
+      dispatch(startLoadingMovies())
+      dispatch(fetchMovies(accessToken))
       
-      
+      dispatch(startLoadingGenres())
+      dispatch(fetchGenres(accessToken))
+    }
+  }, [accessToken])
 
+
+
+
+
+
+
+    
 
   return (
     <SafeAreaView 
               style={{backgroundColor: "#D3D0E3"}}
               className="flex-1">
       {
-        moviesAreLoading || tokenIsLoading || cinemasAreLoading
+        moviesAreLoading || tokenIsLoading || cinemasAreLoading || genresAreLoading
         ?
         <View className="justify-center items-center">
           <ActivityIndicator
@@ -71,13 +82,16 @@ if (accessToken) {
 
           <ScrollView >
             {
-              movies.map((movie, index) => {
+              movies.map((movie) => {
                 return (
-                  <View>
+                  <View
+                      key={movie.id}>
                   <MovieScreeningCard 
-                          movie={movie}
-                          key={movie.id}/>
-                  <AllMovieScreeningTimes movie={movie}/>
+                                  movie={movie}
+                                  />
+                  <AllMovieScreeningTimes 
+                                  movie={movie}
+                                  />
                   </View>
                   
                 )

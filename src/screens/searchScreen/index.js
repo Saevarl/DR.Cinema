@@ -8,6 +8,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { selectMovies } from '../../features/movieSlice'
 import MovieCard from '../../components/movieCard'
 import { selectSearchByMovieTitle, selectSearchString } from '../../features/searchSlice'
+import MovieScreeningCard from '../../components/movieScreeiningCard'
 
 const SearchScreen = () => {
     const navigation = useNavigation()
@@ -49,7 +50,10 @@ const SearchScreen = () => {
           {
           filteredMovies.map(movie => {
             return (
-              <MovieCard key={movie.id} movie={movie} />
+              <MovieScreeningCard 
+                                  key={movie.id}
+                                  movie={movie}
+                                  />
             )
           }
           )
