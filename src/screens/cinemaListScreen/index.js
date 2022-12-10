@@ -10,8 +10,6 @@ import CinemaDetail from '../../components/cinemaDetail'
 
 const CinemaListScreen = () => {
   const navigation = useNavigation()
-  const dispatch = useDispatch()
-  const token = useSelector(selectToken)
   let cinemas = useSelector(selectCinemas)
   const selectedCinema = useSelector(selectSelectedCinema)
 
@@ -21,10 +19,7 @@ const CinemaListScreen = () => {
     })
   }, [])
 
-  useEffect(() => {
-    dispatch(fetchCinemas(token))
-  }, [])
-
+ 
   const sortedCinemas = [];
 
   for (var i in cinemas){

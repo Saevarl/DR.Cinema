@@ -8,6 +8,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { selectMovies } from '../../features/movieSlice'
 import MovieCard from '../../components/movieCard'
 import { selectSearchByMovieTitle, selectSearchString } from '../../features/searchSlice'
+import MovieScreeningCard from '../../components/movieScreeiningCard'
 
 const SearchScreen = () => {
     const navigation = useNavigation()
@@ -31,7 +32,7 @@ const SearchScreen = () => {
         if (isSearchByMovieTitle) {
             return movie.title.toLowerCase().includes(searchTerm.toLowerCase())
         } else {
-            return movie.directors_abridged.some(director => director.name.toLowerCase().includes(searchTerm.toLowerCase())) || movie.actors_abridged.some(actor => actor.name.toLowerCase().includes(searchTerm.toLowerCase()))
+            return movie.directors.some(director => director.name.toLowerCase().includes(searchTerm.toLowerCase())) || movie.actors.some(actor => actor.name.toLowerCase().includes(searchTerm.toLowerCase()))
         }
     })
 
@@ -49,7 +50,10 @@ const SearchScreen = () => {
           {
           filteredMovies.map(movie => {
             return (
-              <MovieCard key={movie.id} movie={movie} />
+              <MovieScreeningCard 
+                                  key={movie.id}
+                                  movie={movie}
+                                  />
             )
           }
           )

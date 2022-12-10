@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, Linking } from 'react-native'
 import React from 'react'
 import { Chip } from '@react-native-material/core'
 

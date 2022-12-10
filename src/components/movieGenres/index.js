@@ -7,9 +7,6 @@ import { selectGenres } from '../../features/genreSlice'
 const MovieGenres = ({movie}) => {
     const genres = useSelector(selectGenres)
 
-    // for genre in movie.genres, if genre === number, replace it with the corresponding object from genres where genre === object.ID
-    // else if each genre in movie.genres is an object, do nothing
-
     const fixedMovieGenres = movie.genres.map((genre) => {
         if (typeof genre === "number") {
             return genres.find((genreObject) => genreObject.ID === genre)
@@ -18,17 +15,7 @@ const MovieGenres = ({movie}) => {
         }
     })
 
-
-    
-
-   
-    
-    
-
-
-
-
-  return (
+    return (
     
         <ScrollView
             horizontal={true}
